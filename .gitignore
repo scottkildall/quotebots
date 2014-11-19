@@ -5,7 +5,7 @@
 # OSX
 .DS_Store
 
-# keys files
-.keys
+# keys files: these contain Twitter API keys, which are private
+keys.txt
 
 
