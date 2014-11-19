@@ -1,0 +1,11 @@
+#########################
+# Twitterbot Patterns
+#########################
+
+# OSX
+.DS_Store
+
+# keys files
+.keys
+
+
