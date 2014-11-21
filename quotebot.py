@@ -7,23 +7,27 @@ def tweetQuote(dirName):
 	lastQuotesFilename = dirName + "lastquote.txt"
 	quotes = loadQuotes(dirName + "quotes.txt")		# e.g. "marktwainbot/quotes.txt"
 
-	arrIndex = findArrayIndex(getLastQuote(dirName+lastQuotesFilename))
+	arrIndex = findArrayIndex(quotes,getLastQuote(lastQuotesFilename))
 	
 	# if not found, set to beginning of file
 	if arrIndex == -1:
 		arrIndex = 0
+	elif arrIndex == len(quotes)-1:
+		arrIndex = 0
+	else:
+		arrIndex = arrIndex+1
 
 	tweetQuote = quotes[arrIndex]
 	print "Tweeting: " + tweetQuote
 	#Tweeter.tweetMessage(getKeys(dirName+"keys.txt"), tweetQuote)
-	saveLastQuote(dirName+lastQuotesFilename), tweetQuote)
+	saveLastQuote(lastQuotesFilename, tweetQuote)
 
 # this filename will typically be something like "marktwainbot/quotes.txt"
 def loadQuotes(filename):
 	f = open( filename, "r" )
 	quotes = []
 	for line in f:
-    	quotes.append( line.rstrip('\n') )
+    		quotes.append( line.rstrip('\n') )
 	f.close()
 	return quotes
 

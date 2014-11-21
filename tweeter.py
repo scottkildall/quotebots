@@ -8,11 +8,13 @@ from twython import Twython
 # keys are kept in a separate file so we don't have to load onto GitHub, a preceding '#' will act as a comment
 def getKeys(keysFilename):
 	# make array of all lines in the file - we have plenty of memory for this
-	f = open( "quotes.txt", "r" )
-	quotes = []
+	f = open( keysFilename, "r" )
+	keys = []
 	for line in f:
-    	quotes.append( line.rstrip('\n') )
+		if line[0] != '#': 
+	    		keys.append( line.rstrip('\n') )
 	f.close()
+	return keys
 
 
 # right now, just support for a string, no media
