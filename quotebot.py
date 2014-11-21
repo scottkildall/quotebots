@@ -9,13 +9,25 @@ import tweeter as Tweeter
 def Activate():
 	randChance = 1.0/125.
 	dirList =  getDirectoryList()
-	print random.randint(0, len(dirList)-1)
 	randChance = randChance * len(dirList)
+	
+	randomNum = random.random()
+
+	# this outputs to cronlog, so we can tell if script is working, use randomNum to switch up output
+	outStr = "Activate (quotebot.py)\n"
+	outStr = outStr + "randomNum = " + str(randomNum) + "\n"
+	outStr = outStr + "randomChance " + str(randChance) + "\n"
 
 	# if we are in random range, choose a random quotebot and tweet it
-	if randChance >= random.random():
-		tweetQuote(dirList[random.randint(0, len(dirList)-1)])
-		
+	if randChance >= randomNum:
+		twitterBot = dirList[random.randint(0, len(dirList)-1)] 
+		tweetedMsg = tweetQuote(twitterBot)
+		outStr = outStr + "SENDING TWEET via " + twitterBot + "\n"
+		outStr = outStr + tweetedMsg
+	else:
+		outStr = outStr + "NO TWEET SENT"
+
+	print outStr
 # dirName = something like "marktwainbot", do not include the trailing '/'
 def tweetQuote(dirName):
 	dirName = dirName + '/'
@@ -33,10 +45,9 @@ def tweetQuote(dirName):
 		arrIndex = arrIndex+1
 
 	tweetQuote = quotes[arrIndex]
-	print "Tweeting: " + tweetQuote
-#	print Tweeter.getKeys(dirName+"keys.txt")
 	Tweeter.tweetMessage(Tweeter.getKeys(dirName+"keys.txt"), tweetQuote)
 	saveLastQuote(lastQuotesFilename, tweetQuote)
+	return tweetQuote
 
 # this filename will typically be something like "marktwainbot/quotes.txt"
 def loadQuotes(filename):
