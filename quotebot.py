@@ -1,6 +1,21 @@
+import os
+import random
+
 import tweeter as Tweeter
 
+# main entry, gets called by cron, chooses a 1/125 possbility for Tweeting
+# this is based on cron starting at 6am (PST) - 9pm (PST), 15 hours total
+# every 7 minutes is about 1 out of every 125 for an average of 1 tweet/day
+def Activate():
+	randChance = 1.0/125.
+	dirList =  getDirectoryList()
+	print random.randint(0, len(dirList)-1)
+	randChance = randChance * len(dirList)
 
+	# if we are in random range, choose a random quotebot and tweet it
+	if randChance >= random.random():
+		tweetQuote(dirList[random.randint(0, len(dirList)-1)])
+		
 # dirName = something like "marktwainbot", do not include the trailing '/'
 def tweetQuote(dirName):
 	dirName = dirName + '/'
@@ -18,7 +33,7 @@ def tweetQuote(dirName):
 		arrIndex = arrIndex+1
 
 	tweetQuote = quotes[arrIndex]
-#	print "Tweeting: " + tweetQuote
+	print "Tweeting: " + tweetQuote
 #	print Tweeter.getKeys(dirName+"keys.txt")
 	Tweeter.tweetMessage(Tweeter.getKeys(dirName+"keys.txt"), tweetQuote)
 	saveLastQuote(lastQuotesFilename, tweetQuote)
@@ -52,5 +67,15 @@ def findArrayIndex(arr, sStr):
 			return i
 	return -1
 
+# return a list of directories, not including hidden ones like git
+def getDirectoryList():
+	dirList = []
+
+	for d in os.listdir(os.path.curdir):
+		if os.path.isdir(d) and d[0] != '.':
+			dirList.append(d)
+	return dirList
+
 if __name__ == "__main__":
-	tweetQuote("marktwainbot")
+	Activate()
+		
