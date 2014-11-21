@@ -18,8 +18,9 @@ def tweetQuote(dirName):
 		arrIndex = arrIndex+1
 
 	tweetQuote = quotes[arrIndex]
-	print "Tweeting: " + tweetQuote
-	#Tweeter.tweetMessage(getKeys(dirName+"keys.txt"), tweetQuote)
+#	print "Tweeting: " + tweetQuote
+#	print Tweeter.getKeys(dirName+"keys.txt")
+	Tweeter.tweetMessage(Tweeter.getKeys(dirName+"keys.txt"), tweetQuote)
 	saveLastQuote(lastQuotesFilename, tweetQuote)
 
 # this filename will typically be something like "marktwainbot/quotes.txt"
